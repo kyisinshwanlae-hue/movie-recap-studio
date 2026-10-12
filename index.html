@@ -1,172 +1,92 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="my">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Recap Studio - AI Powered</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Pyidaungsu', sans-serif;
-        }
-        body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            line-height: 1.6;
-        }
-        header {
-            background: linear-gradient(to right, #1e293b, #0f172a);
-            padding: 2rem 1rem;
-            text-align: center;
-            border-bottom: 1px solid #334155;
-        }
-        header h1 {
-            font-size: 2.2rem;
-            color: #38bdf8;
-            margin-bottom: 0.5rem;
-        }
-        header p {
-            color: #94a3b8;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-        .card {
-            background-color: #1e293b;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        .card h2 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: #38bdf8;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-            border-radius: 8px;
-            border: 1px solid #475569;
-            background-color: #0f172a;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-        }
-        input:focus, textarea:focus {
-            border-color: #38bdf8;
-        }
-        .btn {
-            background-color: #0ea5e9;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-        .btn:hover {
-            background-color: #0284c7;
-        }
-        .result-box {
-            background-color: #0f172a;
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid #334155;
-            white-space: pre-wrap;
-            margin-top: 1rem;
-            min-height: 100px;
-            color: #e2e8f0;
-        }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: #64748b;
-            border-top: 1px solid #334155;
-            margin-top: 3rem;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Movie Recap Studio</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#151d32;--line:#2b3857;--text:#eef3ff;--muted:#aab6d0;--accent:#8b9cff;--accent2:#60dfc0}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#0b1020,#121b31);color:var(--text);font:16px system-ui,-apple-system,"Noto Sans Myanmar",sans-serif}
+header{padding:26px 18px 18px;max-width:900px;margin:auto}h1{font-size:clamp(27px,6vw,42px);margin:0 0 8px}p{line-height:1.6}.muted{color:var(--muted);font-size:14px}
+main{max-width:900px;margin:auto;padding:0 14px 40px;display:grid;gap:14px}.card{background:#151d32eF;border:1px solid var(--line);border-radius:18px;padding:18px}h2{font-size:19px;margin:0 0 12px}.step{color:var(--accent2);font-weight:700;font-size:12px;letter-spacing:.04em}
+label{display:block;font-weight:650;margin:12px 0 7px}input,textarea,select,button{font:inherit}input[type=file],input[type=text],textarea,select{width:100%;background:#0c1325;border:1px solid var(--line);border-radius:11px;padding:12px;color:var(--text)}textarea{min-height:125px;resize:vertical}button{border:0;border-radius:11px;padding:12px 15px;background:var(--accent);color:#10162b;font-weight:750;cursor:pointer;margin-top:10px;width:100%}button.secondary{background:#263451;color:var(--text);border:1px solid #3a4b70}.grid{display:grid;grid-template-columns:1fr;gap:12px}.status{padding:12px;border-radius:10px;background:#0c1325;border:1px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#263451;color:#dce4ff;font-size:12px}.notice{border-left:3px solid #f0c46b;padding:10px 12px;background:#2a251a;border-radius:7px;color:#ffe9b4;font-size:14px}footer{max-width:900px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:12px}
+@media(min-width:700px){.grid.two{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 <body>
-
-    <header>
-        <h1>🎬 Movie Recap Studio</h1>
-        <p>Gemini AI ဖြင့် ဇာတ်ကား Recap များ ဖန်တီးရန်</p>
-    </header>
-
-    <div class="container">
-        <!-- API Key နှင့် Prompt ထည့်ရန် အကွက် -->
-        <div class="card">
-            <h2>🔑 Gemini API Key ထည့်ရန်</h2>
-            <input type="password" id="apiKey" placeholder="আপনার API Key ထည့်ပါ (AIzaSy...)">
-           
-            <h2>🎥 ဇာတ်ကားနာမည် သို့မဟုတ် အချက်အလက်</h2>
-            <textarea id="moviePrompt" rows="3" placeholder="ဥပမာ - Inception ဇာတ်ကားအကြောင်း မြန်မာလို Recap တိုတို ရေးပေးပါ"></textarea>
-           
-            <button class="btn" onclick="generateRecap()">AI ဖြင့် Recap ထုတ်မည်</button>
-        </div>
-
-        <!-- ရလဒ်ထွက်မည့်နေရာ -->
-        <div class="card">
-            <h2>📜 ထွက်လာမည့် Recap ရလဒ်</h2>
-            <div class="result-box" id="outputResult">ရလဒ် ဒီမှာ ပေါ်လာပါမယ်...</div>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 Movie Recap Studio</p>
-    </footer>
-
-    <script>
-        async function generateRecap() {
-            const apiKey = document.getElementById('apiKey').value.trim();
-            const prompt = document.getElementById('moviePrompt').value.trim();
-            const outputBox = document.getElementById('outputResult');
-
-            if (!apiKey) {
-                alert('ကျေးဇူးပြု၍ Gemini API Key ထည့်ပါ။');
-                return;
-            }
-
-            if (!prompt) {
-                alert('ဇာတ်ကားအချက်အလက် (သို့) နာမည် ရိုက်ထည့်ပါ။');
-                return;
-            }
-
-            outputBox.innerText = "AI မှ ဇာတ်ကား Recap ကို ရေးသားနေပါပြီ၊ ခဏစောင့်ပါ...";
-
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-
-            try {
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }]
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.candidates && data.candidates.length > 0) {
-                    const text = data.candidates[0].content.parts[0].text;
-                    outputBox.innerText = text;
-                } else {
-                    outputBox.innerText = "အမှားအယွင်း ရှိပါသည်၊ API Key သို့မဟုတ် Prompt ကို စစ်ဆေးပါ။";
-                }
-            } catch (error) {
-                outputBox.innerText = "ချိတ်ဆက်မှု အမှားအယွင်း ဖြစ်ပွားခဲ့သည်: " + error.message;
-            }
-        }
-    </script>
-
-</body>
-</html>
+<header>
+  <span class="pill">STARTER • VERSION 0.1</span>
+  <h1>🎬 Movie Recap Studio</h1>
+  <p class="muted">မြန်မာဘာသာပြန် • Recap Script • စာတန်းထိုး • မြန်မာအသံ • MP4 Export</p>
+  <p>ဒီဟာက ကိုယ်ပိုင် Movie Recap Website ရဲ့ စတင်အသုံးပြုနိုင်တဲ့ UI နမူနာဖြစ်ပါတယ်။ AI ဘာသာပြန်၊ AI အသံနဲ့ MP4 ပေါင်းစပ်မှုတွေကို တကယ်အလုပ်လုပ်စေဖို့ နောက်တစ်ဆင့်မှာ backend/API ချိတ်ဆက်ရပါမယ်။</p>
+</header>
+<main>
+<section class="card">
+  <div class="step">STEP 01</div><h2>ရုပ်ရှင်ဖိုင် ရွေးချယ်ရန်</h2>
+  <label for="movie">Video file (မိမိအသုံးပြုခွင့်ရှိသောဖိုင်)</label>
+  <input id="movie" type="file" accept="video/*">
+  <p class="muted" id="fileInfo">ဖိုင်ကို browser ထဲမှာသာ ရွေးချယ်ထားမည်။ ဒီ starter က server သို့ upload မလုပ်သေးပါ။</p>
+  <video id="preview" controls playsinline style="display:none;width:100%;max-height:360px;border-radius:12px;background:#05070d"></video>
+</section>
+<section class="card">
+  <div class="step">STEP 02</div><h2>မြန်မာ Recap ဇာတ်ညွှန်း</h2>
+  <label for="source">မူရင်းဇာတ်ကြောင်း / Transcript</label>
+  <textarea id="source" placeholder="ဒီနေရာမှာ ကိုယ်ရေးထားတဲ့ ဇာတ်ကြောင်း သို့မဟုတ် transcript ကို ထည့်ပါ..."></textarea>
+  <label for="myanmar">မြန်မာလို Recap Script</label>
+  <textarea id="myanmar" placeholder="AI ဘာသာပြန်/ပြန်ရေးပြီး ရလာတဲ့ မြန်မာဇာတ်ညွှန်းကို ဒီမှာ ထည့်ပါ..."></textarea>
+  <div class="notice">AI ဘာသာပြန်ခလုတ်ကို အမှန်တကယ်လုပ်ဆောင်စေဖို့ လုံခြုံတဲ့ backend နဲ့ AI API ချိတ်ဆက်ဖို့ လိုပါတယ်။ API key ကို ဒီ HTML ထဲမှာ မထည့်ပါနဲ့။</div>
+  <button class="secondary" id="draftBtn">မူရင်းစာသားကို Recap draft အဖြစ် ကူးယူရန်</button>
+</section>
+<section class="card">
+  <div class="step">STEP 03</div><h2>မြန်မာစာတန်းထိုး (SRT)</h2>
+  <p class="muted">စာကြောင်းတစ်ကြောင်းစီကို အချိန်တစ်ခုစီ သတ်မှတ်ပေးနိုင်ပါတယ်။ ဒီနမူနာက auto-sync မလုပ်သေးပါ။</p>
+  <label for="subtitleText">စာတန်းတစ်ကြောင်းစီ (လိုင်းအသစ်ဖြင့် ခွဲပါ)</label>
+  <textarea id="subtitleText" placeholder="အခု သူဟာ အိမ်ဟောင်းထဲကို ဝင်လာတယ်။&#10;ဒါပေမဲ့ အဲဒီနေရာမှာ တစ်ယောက်ယောက် ရှိနေတယ်။"></textarea>
+  <div class="grid two">
+    <div><label for="duration">စာတန်းတစ်ကြောင်း ကြာချိန် (စက္ကန့်)</label><input id="duration" type="number" min="1" max="20" value="4"></div>
+    <div><label for="voice">AI အသံ</label><select id="voice"><option>မြန်မာအမျိုးသားအသံ (backend ချိတ်ဆက်ရန်လို)</option><option>မြန်မာအမျိုးသမီးအသံ (backend ချိတ်ဆက်ရန်လို)</option></select></div>
+  </div>
+  <button id="srtBtn">SRT စာတန်းဖိုင် ဖန်တီးပြီး Download လုပ်ရန်</button>
+  <button class="secondary" id="txtBtn">မြန်မာဇာတ်ညွှန်းကို TXT Download လုပ်ရန်</button>
+  <div class="status" id="status" aria-live="polite">အဆင်သင့်ပါပြီ။</div>
+</section>
+<section class="card">
+  <div class="step">STEP 04</div><h2>MP4 Export</h2>
+  <p>MP4 အပြီးသတ်ထုတ်ဖို့ ဗီဒီယို၊ အသံ၊ စာတန်းတွေကို FFmpeg လို video-processing engine နဲ့ backend ပေါ်မှာ ပေါင်းစပ်ရပါမယ်။ ဖုန်း browser ထဲက ဒီနမူနာတစ်ခုတည်းနဲ့ အဲဒီအလုပ်ကို မလုပ်သေးပါ။</p>
+  <button class="secondary" id="copyPlan">နောက်တစ်ဆင့် တည်ဆောက်ရန် checklist ကို ကူးယူရန်</button>
+  <div class="status" id="planStatus"></div>
+</section>
+</main>
+<footer>အသုံးပြုခွင့်ရှိသော ဗီဒီယိုများကိုသာ အသုံးပြုပါ။ မူပိုင်ခွင့်ရှိသော ရုပ်ရှင်များကို ပြန်လည်အသုံးပြုခြင်းအတွက် ခွင့်ပြုချက်နှင့် သက်ဆိုင်ရာစည်းမျဉ်းများကို စစ်ဆေးပါ။</footer>
+<script>
+const $=id=>document.getElementById(id);
+const movie=$('movie'),preview=$('preview');
+movie.addEventListener('change',()=>{
+const f=movie.files&&movie.files[0]; if(!f)return;
+$('fileInfo').textContent=`ရွေးထားသောဖိုင်: ${f.name} • ${(f.size/1024/1024).toFixed(1)} MB`;
+if(preview.src)URL.revokeObjectURL(preview.src);
+preview.src=URL.createObjectURL(f);preview.style.display='block';
+});
+$('draftBtn').onclick=()=>{
+const s=$('source').value.trim();
+if(!s){$('status').textContent='မူရင်းစာသားကို အရင်ထည့်ပါ။';return;}
+$('myanmar').value=s;
+$('status').textContent='စာသားကို ကူးယူပြီးပါပြီ။ ဒါက AI ဘာသာပြန်ခြင်းမဟုတ်သေးပါ။';
+};
+function timeSrt(sec){const ms=Math.round((sec-Math.floor(sec))*1000);const whole=Math.floor(sec);const h=Math.floor(whole/3600),m=Math.floor((whole%3600)/60),s=whole%60;return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')},${String(ms).padStart(3,'0')}`}
+function download(name,content,type){const blob=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+$('srtBtn').onclick=()=>{
+const lines=$('subtitleText').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+if(!lines.length){$('status').textContent='စာတန်းစာသားကို အရင်ထည့်ပါ။';return;}
+const d=Math.max(1,Math.min(20,Number($('duration').value)||4));
+const srt=lines.map((line,i)=>`${i+1}\n${timeSrt(i*d)} --> ${timeSrt((i+1)*d)}\n${line}\n`).join('\n');
+download('myanmar-subtitles.srt','\uFEFF'+srt,'text/plain;charset=utf-8');
+$('status').textContent=`SRT ဖိုင်ဖန်တီးပြီးပါပြီ။ စာတန်း ${lines.length} ကြောင်း။ အချိန်တွေကို ဗီဒီယိုနဲ့ကိုက်ညီအောင် ပြန်ညှိပါ။`;
+};
+$('txtBtn').onclick=()=>{const s=$('myanmar').value.trim();if(!s){$('status').textContent='မြန်မာ Recap Script ကို အရင်ထည့်ပါ။';return;}download('myanmar-recap-script.txt','\uFEFF'+s,'text/plain;charset=utf-8');};
+$('copyPlan').onclick=async()=>{
+const p='Movie Recap Studio next steps:\n1. Backend: secure server-side API routes\n2. Transcription: speech-to-text\n3. Translation and recap generation: AI model API\n4. Burmese male TTS: verify Burmese language support and licensing\n5. Subtitles: generate word/line timestamps and SRT\n6. FFmpeg backend: combine authorized video, voice, subtitles, music and export MP4\n7. Add authentication, file-size limits, temporary storage and automatic file deletion\n8. Never expose API keys in frontend code';
+try{await navigator.clipboard.writeText(p);$('planStatus').textContent='Checklist ကို clipboard ထဲ ကူးယူပြီးပါပြီ။';}catch(e){$('planStatus').textContent=p;}
+};
+</script>
+</body></html>
