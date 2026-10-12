@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Recap Studio</title>
-    <!-- Google Fonts -->
+    <title>Movie Recap Studio - AI Powered</title>
     <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -33,79 +32,59 @@
             color: #94a3b8;
         }
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 2rem 1rem;
         }
-        .search-box {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2.5rem;
+        .card {
+            background-color: #1e293b;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
-        .search-box input {
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #38bdf8;
+        }
+        input, textarea {
             width: 100%;
-            max-width: 500px;
-            padding: 0.75rem 1rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
             border-radius: 8px;
             border: 1px solid #475569;
-            background-color: #1e293b;
+            background-color: #0f172a;
             color: #fff;
             font-size: 1rem;
             outline: none;
         }
-        .search-box input:focus {
+        input:focus, textarea:focus {
             border-color: #38bdf8;
         }
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-        .movie-card {
-            background-color: #1e293b;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-        .movie-card:hover {
-            transform: translateY(-5px);
-        }
-        .movie-img {
-            width: 100%;
-            height: 180px;
-            background-color: #334155;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #94a3b8;
-            font-size: 1.2rem;
-        }
-        .movie-content {
-            padding: 1.5rem;
-        }
-        .movie-title {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: #f1f5f9;
-        }
-        .movie-desc {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            margin-bottom: 1rem;
-        }
         .btn {
-            display: inline-block;
             background-color: #0ea5e9;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.9rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
             transition: background-color 0.2s;
         }
         .btn:hover {
             background-color: #0284c7;
+        }
+        .result-box {
+            background-color: #0f172a;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            white-space: pre-wrap;
+            margin-top: 1rem;
+            min-height: 100px;
+            color: #e2e8f0;
         }
         footer {
             text-align: center;
@@ -120,67 +99,71 @@
 
     <header>
         <h1>🎬 Movie Recap Studio</h1>
-        <p>စိတ်ဝင်စားစရာ အကောင်းဆုံး ဇာတ်ကား recap များကို တစ်နေရာတည်းမှာ ကြည့်ရှုပါ</p>
+        <p>Gemini AI ဖြင့် ဇာတ်ကား Recap များ ဖန်တီးရန်</p>
     </header>
 
     <div class="container">
-        <!-- Search Bar -->
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="ဇာတ်ကားနာမည် ရှာရန်..." onkeyup="searchMovies()">
+        <!-- API Key နှင့် Prompt ထည့်ရန် အကွက် -->
+        <div class="card">
+            <h2>🔑 Gemini API Key ထည့်ရန်</h2>
+            <input type="password" id="apiKey" placeholder="আপনার API Key ထည့်ပါ (AIzaSy...)">
+           
+            <h2>🎥 ဇာတ်ကားနာမည် သို့မဟုတ် အချက်အလက်</h2>
+            <textarea id="moviePrompt" rows="3" placeholder="ဥပမာ - Inception ဇာတ်ကားအကြောင်း မြန်မာလို Recap တိုတို ရေးပေးပါ"></textarea>
+           
+            <button class="btn" onclick="generateRecap()">AI ဖြင့် Recap ထုတ်မည်</button>
         </div>
 
-        <!-- Movie List Grid -->
-        <div class="movie-grid" id="movieGrid">
-            <!-- Movie Card 1 -->
-            <div class="movie-card" data-title="sci-fi adventure">
-                <div class="movie-img">Movie Poster 1</div>
-                <div class="movie-content">
-                    <h3 class="movie-title">អကာသ အလွန် (Sci-Fi Adventure)</h3>
-                    <p class="movie-desc">အနာဂတ်ကမ္ဘာကို ကယ်တင်ဖို့အတွက် အာကာသထဲကို ထွက်ခွာသွားရတဲ့ သူရဲကောင်းတစ်ယောက်ရဲ့ စွန့်စားခန်း ဇာတ်လမ်း...</p>
-                    <a href="#" class="btn">Recap ကြည့်ရန်</a>
-                </div>
-            </div>
-
-            <!-- Movie Card 2 -->
-            <div class="movie-card" data-title="action thriller">
-                <div class="movie-img">Movie Poster 2</div>
-                <div class="movie-content">
-                    <h3 class="movie-title">မဟာတိုက်ပွဲ (Action Thriller)</h3>
-                    <p class="movie-desc">လျှို့ဝှက်ချက်တွေကို ဖော်ထုတ်ရင်း ရန်သူတွေရဲ့ ဖမ်းဆီးမှုကို ရင်ဆိုင်ရမယ့် သည်းထိုရင်ဖိုစရာ အက်ရှင်ဇာတ်ကား...</p>
-                    <a href="#" class="btn">Recap ကြည့်ရန်</a>
-                </div>
-            </div>
-
-            <!-- Movie Card 3 -->
-            <div class="movie-card" data-title="mystery drama">
-                <div class="movie-img">Movie Poster 3</div>
-                <div class="movie-content">
-                    <h3 class="movie-title">လျှို့ဝှက်ချက် (Mystery Drama)</h3>
-                    <p class="movie-desc">နှစ်ပေါင်းများစွာ ဖုံးကွယ်ထားခဲ့တဲ့ ရွာငယ်လေးတစ်ခုရဲ့ ထူးဆန်းတဲ့ အဖြစ်အပျက်တွေကို စုံစမ်းဖော်ထုတ်ခြင်း...</p>
-                    <a href="#" class="btn">Recap ကြည့်ရန်</a>
-                </div>
-            </div>
+        <!-- ရလဒ်ထွက်မည့်နေရာ -->
+        <div class="card">
+            <h2>📜 ထွက်လာမည့် Recap ရလဒ်</h2>
+            <div class="result-box" id="outputResult">ရလဒ် ဒီမှာ ပေါ်လာပါမယ်...</div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 Movie Recap Studio. All rights reserved.</p>
+        <p>&copy; 2026 Movie Recap Studio</p>
     </footer>
 
     <script>
-        function searchMovies() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('movie-card');
+        async function generateRecap() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const prompt = document.getElementById('moviePrompt').value.trim();
+            const outputBox = document.getElementById('outputResult');
 
-            for (let i = 0; i < cards.length; i++) {
-                let title = cards[i].getElementsByClassName('movie-title')[0].innerText.toLowerCase();
-                let desc = cards[i].getElementsByClassName('movie-desc')[0].innerText.toLowerCase();
-               
-                if (title.includes(input) || desc.includes(input)) {
-                    cards[i].style.display = "";
+            if (!apiKey) {
+                alert('ကျေးဇူးပြု၍ Gemini API Key ထည့်ပါ။');
+                return;
+            }
+
+            if (!prompt) {
+                alert('ဇာတ်ကားအချက်အလက် (သို့) နာမည် ရိုက်ထည့်ပါ။');
+                return;
+            }
+
+            outputBox.innerText = "AI မှ ဇာတ်ကား Recap ကို ရေးသားနေပါပြီ၊ ခဏစောင့်ပါ...";
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.candidates && data.candidates.length > 0) {
+                    const text = data.candidates[0].content.parts[0].text;
+                    outputBox.innerText = text;
                 } else {
-                    cards[i].style.display = "none";
+                    outputBox.innerText = "အမှားအယွင်း ရှိပါသည်၊ API Key သို့မဟုတ် Prompt ကို စစ်ဆေးပါ။";
                 }
+            } catch (error) {
+                outputBox.innerText = "ချိတ်ဆက်မှု အမှားအယွင်း ဖြစ်ပွားခဲ့သည်: " + error.message;
             }
         }
     </script>
